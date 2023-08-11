@@ -1,0 +1,34 @@
+pipelines:
+  test:
+    group: test-pipelines
+    display_order: 10
+    label_template: "${COUNT}"
+    lock_behavior: unlockWhenFinished
+    timer:
+      spec: "0 * * * * ? *"
+    materials:
+      mygit:
+        git: https://github.com/gocd/gocd-trial.git
+        branch: master
+        shallow_clone: false
+        auto_update: false
+    stages:
+      - test-stage:
+          fetch_materials: true
+          keep_artifacts: true
+          clean_workspace: false
+          approval:
+            type: manual
+            allow_only_on_success: false
+          resources:
+            - cron
+          jobs:
+            # jobs running parallel
+            job:
+              timeout: 0
+              tasks:
+                # tasks are processed serially
+                # set correct env.php file for elastic agent
+                - exec:
+                    command: whoami
+                    run_if: passed
