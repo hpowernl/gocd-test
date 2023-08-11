@@ -1,6 +1,6 @@
 pipelines:
-  test:
-    group: test-pipelines
+  hypernode:
+    group: hypernode-pipelines
     display_order: 10
     label_template: "${COUNT}"
     lock_behavior: unlockWhenFinished
@@ -13,7 +13,7 @@ pipelines:
         shallow_clone: false
         auto_update: false
     stages:
-      - test-stage:
+      - hypernode-stage:
           fetch_materials: true
           keep_artifacts: true
           clean_workspace: false
